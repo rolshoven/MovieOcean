@@ -1,0 +1,28 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+django-extensions = "*"
+tqdm = "*"
+matplotlib = "*"
+
+[packages]
+numpy = "*"
+pandas = "*"
+django = "*"
+django-environ = "*"
+mysqlclient = "*"
+django-mathfilters = "*"
+django-extensions = "*"
+django-heroku = "*"
+whitenoise = "*"
+gunicorn = "*"
+tmdbsimple = "*"
+sendgrid = "*"
+celery = "*"
+django-admin-numeric-filter = "*"
+
+[requires]
+python_version = "3.8"

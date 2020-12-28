@@ -1,0 +1,15 @@
+Hey there,
+
+we're sending you this mail because you registered to our
+personality-based movie recommender system a week ago. Did
+you have the time to watch one of our recommendations? If so,
+we would really appreciate if you could give the movie a
+rating. Your ratings can improve our system and we use them to
+assess the accuracy of this personality-based recommendation
+approach. If you already rated one or more of our recommendations,
+we wanted to thank you!
+
+Have a nice day!
+
+Best,
+Corina & Luca, developers of MovieOcean

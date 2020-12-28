@@ -1,0 +1,45 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+    <div class="column is-4 is-offset-4">
+        <div class="box">
+            <h3 class="title has-text-dark">{% block form_title %}Form Title{% endblock %}</h3>
+            <p class="subtitle has-text-dark">{% block form_subtitle %}Form Subtitle{% endblock %}</p>
+            <hr>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="{{ message.tags }} is-size-7">
+                        <button class="delete"></button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% include 'form_template.html' %}
+                <div class="field">
+                    <div class="control">
+                        <button type="submit" class="button is-block is-primary is-medium is-fullwidth">
+                            {% block button_text %}Button{% endblock %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // Close notification on click
+            $(".notification .delete").click(function () {
+                $(this.closest("div")).fadeOut(800);
+            });
+        })
+    </script>
+{% endblock %}
+

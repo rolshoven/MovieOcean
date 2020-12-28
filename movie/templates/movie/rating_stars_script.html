@@ -1,0 +1,137 @@
+<script>
+    // Only works with a defined movie that has an id, a title and maybe an attribute user_star_rating
+    const stars = $('.rating-stars').children('span.icon');
+    const ratingFeedbackContainer = $('#rating-feedback');
+    const ratingFeedback = $('#rating-feedback p');
+    const messageFadeOutDelay = 3500;
+    let previousRating = 0;
+    if (movie.user_star_rating) {
+        previousRating = movie.user_star_rating;
+    }
+    let rating = previousRating;
+
+    getStarIcons = (starIndex) => {
+        let children = $(stars).eq(starIndex).children('i');
+        return [children.eq(0), children.eq(1), children.eq(2)];
+    }
+
+    setStarEmpty = (starIndex) => {
+        let [empty, half, full] = getStarIcons(starIndex);
+        empty.removeClass('is-hidden');
+        half.addClass('is-hidden');
+        full.addClass('is-hidden');
+    }
+
+    setStarHalf = (starIndex) => {
+        let [empty, half, full] = getStarIcons(starIndex);
+        empty.addClass('is-hidden');
+        half.removeClass('is-hidden');
+        full.addClass('is-hidden');
+    }
+
+    setStarFull = (starIndex) => {
+        let [empty, half, full] = getStarIcons(starIndex);
+        empty.addClass('is-hidden');
+        half.addClass('is-hidden');
+        full.removeClass('is-hidden');
+    }
+
+    setStars = (numStars) => {
+        if (numStars % 0.5 != 0 || numStars < 0 || numStars > 5) {
+            throw 'Argument numStars must be between 0 and 5 and it must be divisible by 0.5!';
+        }
+        let hasHalfStar = numStars - Math.floor(numStars) > 0;
+        let i = 0;
+        for (i = 0; i <= numStars - 1; i++) {
+            setStarFull(i);
+        }
+        if (hasHalfStar) {
+            setStarHalf(i);
+        }
+    }
+
+    clearStars = () => {
+        for (let i = 0; i < stars.length; i++) {
+            setStarEmpty(i);
+        }
+    }
+
+    // On page load, set stars to 0 or to previous rating
+    clearStars()
+    setStars(previousRating)
+
+    // Let user rate movie by hovering over stars and clicking on them
+    $('.rating-stars span.icon').mousemove(function (e) {
+        const spanOffset = $(this).offset();
+        const relXStar = (e.pageX - spanOffset.left) / $(this).width();
+
+        // Hide all previously selected stars
+        clearStars();
+
+        let starIndex = 0;
+        rating = previousRating;
+        for (let i = 0; i < stars.length; i++) {
+            if (stars[i] == this) {
+                starIndex = i;
+                // Fill the stars to the left
+                for (let j = 0; j < starIndex; j++) {
+                    setStarFull(j);
+                }
+
+                // Fill current star depending on mouse position
+                if (0.5 <= relXStar && relXStar < 0.75) {
+                    setStarHalf(i);
+                    rating = starIndex + 0.5;
+                } else if (relXStar >= 0.75) {
+                    setStarFull(i);
+                    rating = starIndex + 1;
+                } else {
+                    rating = starIndex;
+                }
+                break;
+            }
+        }
+    });
+
+    $('.rating-stars span.icon').click(function () {
+        previousRating = rating;
+        $.ajax
+        ({
+            url: '{% url 'movie:rate' %}',
+            data: {
+                tmdb_id: movie.id,
+                rating: rating,
+                movie_title: movie.title,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            type: 'post',
+            // on success
+            success: function (response) {
+                if (response.status) {
+                    $(ratingFeedbackContainer).removeClass('is-danger');
+                    $(ratingFeedbackContainer).addClass('is-success');
+                    $(ratingFeedbackContainer).removeClass('is-invisible');
+                    $(ratingFeedback).text(response.status);
+                    $(ratingFeedbackContainer).fadeOut(messageFadeOutDelay, () => {
+                        $(ratingFeedbackContainer).addClass('is-invisible').show();
+                    });
+                } else {
+                    previousRating = response.previous_rating;
+                    $(ratingFeedbackContainer).removeClass('is-success');
+                    $(ratingFeedbackContainer).addClass('is-danger');
+                    $(ratingFeedbackContainer).removeClass('is-invisible');
+                    $(ratingFeedback).text(response.errors);
+                    $(ratingFeedbackContainer).fadeOut(messageFadeOutDelay, () => {
+                        $(ratingFeedbackContainer).addClass('is-invisible').show();
+                    });
+                }
+            },
+        });
+    });
+
+    // Set star rating to current rating when mouse leaves the rating field
+    $('.rating-stars').mouseout(function (e) {
+        clearStars();
+        setStars(previousRating);
+    });
+</script>

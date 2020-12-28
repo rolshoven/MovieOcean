@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+                    <h1 class="title">
+                        About MovieOcean
+                    </h1>
+                    <p>
+                        MovieOcean is a movie recommender system. For the recommendations, we are using
+                        a user-based collaborative filtering algorithm. We build neighborhoods
+                        according to the personalities of the users. For assessing the personalities, we
+                        are using the Five-Factor Model: <b>O</b>penness, <b>C</b>onscientiousness,
+                        <b>E</b>xtraversion, <b>A</b>greeableness, <b>N</b>euroticism. For short: OCEAN.
+                        The findings of this system are of academic interest.
+                    </p>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column my-5">
+                    <h1 class="title">
+                        Privacy Policy
+                    </h1>
+                    <p>
+                        In order to use our system, the user is required to sign up with an email
+                        address and a password. We additionally ask for the age, gender, and
+                        country of the user. This information is only used for computing recommendations
+                        or evaluating our system. No data is released to any third party.
+                        Our conclusions might include certain personality types, but there is no
+                        possibility to trace back results to a certain email address.
+                        We might use your email address to send reminders or similar with the
+                        purpose of making our system more useful.
+                    </p>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <h1 class="title">
+                        Credits
+                    </h1>
+                    <p>
+                        For our system, we are using the movie database
+                         <a href="https://www.themoviedb.org/">TMDB</a>. In addition, the questions
+                        for the personality questionnaire were
+                        taken from the International Personality Item Pool
+                        (<a href="https://ipip.ori.org/new_ipip-50-item-scale.html">IPIP</a>).
+                        The information about the big five personality traits were mostly taken from:
+                        Roccas, Sonia, et al. "The big five personality factors and personal values."
+                        Personality and social psychology bulletin 28.6 (2002): 789-801.
+                        Available at
+                        <a href="https://journals.sagepub.com/doi/abs/10.1177/0146167202289008#">
+                            https://journals.sagepub.com/doi/abs/10.1177/0146167202289008
+                        </a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

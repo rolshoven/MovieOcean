@@ -1,0 +1,62 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+    <div class="column is-8 is-offset-2">
+        <div class="box">
+            <h1 class="title is-size-2">
+                Welcome!
+            </h1>
+            <div class="block">
+                <p class="has-text-left is-size-5">
+                    Before we can give you movie recommendations based on your personality,
+                    we need you to fill out a questionnaire so that the system gets to know you.
+                    All of your information is safe with us. We, the developers, do not look
+                    into
+                    your personality. Your ratings are analyzed after some time but we do not
+                    connect
+                    the ratings to you as a person. Your age, gender and country are also merely
+                    used
+                    to better estimate the prediction power of our system.
+                </p>
+            </div>
+            <div class="block">
+                <p class="has-text-left is-size-5">
+                    In order for this Recommender System to work, we need you to rate some
+                    movies.
+                    Therefore we would really appreciate it if you could rate at least ten
+                    movies
+                    that you enjoyed watching in the past. Don't worry, there will be a reminder
+                    after
+                    the questionnaire. When you complete the questionnaire, you can always get
+                    your
+                    movie recommendations by clicking on <i>Recommendations</i> in the menu
+                    section
+                    <i>Movies</i> above. We will remind you 7 days after your registration to
+                    rate
+                    the
+                    recommendations. If you do not want to receive this reminder, feel free to
+                    opt
+                    out.
+                    You can do so by clicking on <i>Account</i> in the navigation above. There,
+                    you
+                    will
+                    see a button that lets you deactivate the rating reminders.
+                </p>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <a class="button is-primary is-medium is-rounded is-fullwidth"
+                       href="{% url 'questionnaire:index' 0 %}">
+                        <span class="icon is-small">
+                            <i class="fas fa-thumbs-up"></i>
+                        </span>
+                        <strong class="is-hidden-mobile">Okay, take me to the questionnaire!</strong>
+                        <strong class="is-hidden-tablet">Continue</strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

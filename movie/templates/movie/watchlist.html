@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+
+{% load mathfilters %}
+{% load static %}
+
+{% block title %}Watchlist{% endblock %}
+
+{% block body %}
+    <section class="container mt-5">
+        <div class="mx-3">
+            <h1 class="title">Watchlist</h1>
+            <div class="columns is-multiline">
+                {% for message in messages %}
+                    <div class="column is-12">
+                        <div class="{{ message.tags }} is-light">
+                            <button class="delete"></button>
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if movies %}
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        {% with step=movies|length index=page|sub:1 %}
+                            <p class="is-family-monospace">
+                                There are {{ total_results }} movies on your watchlist.
+                                {% if total_pages > 1 %}
+                                    {% if page < total_pages %}
+                                        You're
+                                        currently seeing movies {{ index|mul:step|add:1 }} to
+                                        {{ index|mul:step|add:step }}.
+                                    {% else %}
+                                        You're
+                                        currently seeing movies {{ total_results|sub:step|add:1 }} to
+                                        {{ total_results }}.
+                                    {% endif %}
+                                {% endif %}
+                            </p>
+                        {% endwith %}
+                    </div>
+                </div>
+                <div class="columns is-multiline">
+                    {% for movie in movies %}
+                        <div class="column is-3">
+                            {# Hidden movie info that is used by jQuery script. #}
+                            <span class="movie-info is-hidden" data-id="{{ movie.id }}"
+                                  data-title="{{ movie.title }}"
+                                  {% if movie.user_star_rating %}data-user_star_rating="{{ movie.user_star_rating }}"{% endif %}></span>
+                            {# Movie card #}
+                            <div class="card equal-height">
+                                <div class="card-image">
+                                    <a href="{% url 'movie:view' movie.id %}">
+                                        <figure class="image is-2by3">
+                                            {% if movie.poster_path %}
+                                                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+                                                     alt="Movie poster for '{{ movie.title }}'">
+                                            {% else %}
+                                                <img src="{% static 'images/no_poster.jpg' %}"
+                                                     alt="No image available">
+                                            {% endif %}
+                                        </figure>
+                                    </a>
+                                </div>
+                                <div class="card-content">
+                                    <p class="title is-5">{{ movie.title }}</p>
+                                    <div class="content">
+                                        {% if movie.overview %}
+                                            {% with shortened_description=movie.overview|slice:':128' %}
+                                                {{ shortened_description }}
+                                                {% if movie.overview|length > 128 %}
+                                                    ...
+                                                {% endif %}
+                                            {% endwith %}
+                                        {% else %}
+                                            No description available.
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {# Footer links #}
+                                <form method="POST" action="{% url 'movie:remove_from_watchlist' %}">
+                                    {% csrf_token %}
+                                    <footer class="card-footer">
+                                        <input name="tmdb_id" value="{{ movie.id }}" hidden>
+                                        <a href="{% url 'movie:view' movie.id %}" class="card-footer-item">More</a>
+                                        <button class="card-footer-item button is-link is-light has-background-white mt-1" type="submit">
+                                            Remove
+                                        </button>
+                                        <a class="card-footer-item modal-button">Rate</a>
+                                    </footer>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if movies %}
+                    {# Desktop navigation #}
+                    <div class="columns is-vcentered mb-5 is-hidden-mobile">
+                        <div class="column is-4">
+                            {% if page > 1 %}
+                                <div class="control">
+                                    <a class="button is-primary is-large is-rounded"
+                                       href="{% url 'movie:watchlist' page=page|sub:1 %}">
+                                        <span class="icon">
+                                            <i class="fas fa-caret-left"></i>
+                                        </span>
+                                        <span class="has-text-weight-medium">Back</span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="column is-4">
+                            {% if page and total_pages > 1 %}
+                                <p class="has-text-centered is-size-5 is-family-monospace">
+                                    Page {{ page }} of {{ total_pages }}
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="column is-4 has-text-right">
+                            {% if page < total_pages %}
+                                <div class="control">
+                                    <a class="button is-primary is-large is-rounded"
+                                       href="{% url 'movie:watchlist' page=page|add:1 %}">
+                                        <span class="has-text-weight-medium">Next</span>
+                                        <span class="icon">
+                                            <i class="fas fa-caret-right"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {# Mobile navigation #}
+                    <div class="columns is-hidden-tablet">
+                        <div class="column">
+                            {% if page and total_pages > 1 %}
+                                <p class="has-text-centered is-size-5 is-family-monospace">
+                                    Page {{ page }} of {{ total_pages }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="columns is-vcentered is-mobile ml-1 mb-5 is-hidden-tablet">
+                        <div class="column is-6">
+                            {% if page > 1 %}
+                                <div class="control">
+                                    <a class="button is-primary is-medium is-rounded"
+                                       href="{% url 'movie:watchlist' page=page|sub:1 %}">
+                                        <span class="icon">
+                                            <i class="fas fa-caret-left"></i>
+                                        </span>
+                                        <span class="has-text-weight-medium">Back</span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="column is-6 has-text-right">
+                            {% if page < total_pages %}
+                                <div class="control">
+                                    <a class="button is-primary is-medium is-rounded"
+                                       href="{% url 'movie:watchlist' page=page|add:1 %}">
+                                        <span class="has-text-weight-medium">Next</span>
+                                        <span class="icon">
+                                            <i class="fas fa-caret-right"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="columns is-multiline is-centered">
+                    <div class="column is-12">
+                        <div class="notification is-link is-light">
+                            <span class="icon is-small is-right is-pulled-right mt-1">
+                                <i class="fas fa-info"></i>
+                            </span>
+                            <p class="is-family-monospace is-size-5">
+                                You currently have no movies on your watchlist. You can add them in the movie search or
+                                by clicking on <i>Add to watchlist</i> in the recommendations view.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns is-hidden-tablet is-centered is-multiline my-5">
+                    <div class="column is-12">
+                        <a class="button is-info is-outlined is-rounded is-medium is-fullwidth"
+                           href="{% url 'movie:recommendations' %}">
+                            <span class="icon is-small">
+                                <i class="fas fa-film"></i>
+                            </span>
+                            <strong>Recommendations</strong>
+                        </a>
+                    </div>
+                    <div class="column is-12">
+                        <a class="button is-info is-outlined is-rounded is-medium is-fullwidth"
+                           href="{% url 'movie:search' %}">
+                            <span class="icon is-small">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <strong>Search</strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="columns is-hidden-mobile my-5">
+                    <div class="column is-4 is-offset-4">
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <a class="button is-info is-outlined is-rounded is-medium is-fullwidth"
+                                   href="{% url 'movie:recommendations' %}">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-film"></i>
+                                    </span>
+                                    <strong>Recommendations</strong>
+                                </a>
+                            </div>
+                            <div class="control">
+                                <a class="button is-info is-outlined is-rounded is-medium is-fullwidth"
+                                   href="{% url 'movie:search' %}">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <strong>Search</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        {# Modal that opens when user clicks on rate #}
+        <div class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content px-5" style="overflow: hidden;">
+                <div class="tile is-ancestor">
+                    <div class="tile is-parent">
+                        <div class="tile is-child box has-text-centered my-4">
+                            {% include 'movie/rating_stars_module.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close"></button>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        let movie = {}
+    </script>
+    {% include 'movie/rating_stars_script.html' %}
+
+    {# Enables the use of bulma modal #}
+    <script>
+        $('.modal-button').click(function () {
+            movie = $(this).closest('.column.is-3').children('.movie-info').first().data();
+            clearStars();
+            if (movie.user_star_rating) {
+                setStars(movie.user_star_rating);
+            }
+            let target = $('.modal');
+            $('html').addClass('is-clipped');
+            $(target).addClass('is-active');
+            return false;  // Allows event bubbling
+        });
+
+        $('.modal-close').click(function () {
+            $('html').removeClass('is-clipped');
+            $(this).parent().removeClass('is-active');
+        });
+
+        // Close modal when user clicks outside of it
+        $('body').click(function (event) {
+            if (!$(event.target).closest('.modal-content').length && !$(event.target).is('.modal-content')) {
+                $('html').removeClass('is-clipped');
+                $('.modal-close').parent().removeClass('is-active');
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Close notification on click
+            $(".notification .delete").click(function () {
+                $(this).closest('.notification').fadeOut(800);
+            });
+        })
+    </script>
+{% endblock %}

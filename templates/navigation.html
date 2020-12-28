@@ -1,0 +1,101 @@
+{% load static %}
+
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'home' %}">
+            <img src="{% static 'images/logo.svg' %}" width="112">
+        </a>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+           data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div class="navbar-menu">
+        <div class="navbar-start">
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link is-arrowless">
+                    Personality
+                </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="{% url 'questionnaire:index' 0 %}">
+                        Questionnaire
+                    </a>
+                    <a class="navbar-item" href="{% url 'questionnaire:results' %}">
+                        My Results
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link is-arrowless">
+                    Movies
+                </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="{% url 'movie:search' %}">
+                        Search
+                    </a>
+                    <a class="navbar-item" href="{% url 'movie:recommendations' %}">
+                        Recommendations
+                    </a>
+                    <a class="navbar-item" href="{% url 'movie:watchlist' %}">
+                        Watchlist
+                    </a>
+                </div>
+            </div>
+            <a class="navbar-item" href="{% url 'movie:about' %}">
+                About
+            </a>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    {% if user.is_superuser %}
+                    <a class="button is-warning is-rounded" href="{% url 'admin:index' %}">
+                        <span class="icon is-small">
+                            <i class="fas fa-tools"></i>
+                        </span>
+                        <span><strong>Admin Panel</strong></span>
+                    </a>
+                    {% endif %}
+                    <a class="button is-primary is-outlined is-rounded" href="{% url 'account' %}">
+                        <span class="icon is-small">
+                            <i class="fas fa-user-circle"></i>
+                        </span>
+                        <span><strong>Account</strong></span>
+                    </a>
+                    <a class="button is-info is-outlined is-rounded" href="{% url 'help' %}">
+                        <span class="icon is-small">
+                            <i class="fas fa-question-circle"></i>
+                        </span>
+                        <strong>Help</strong>
+                    </a>
+                    <a class="button is-danger is-outlined is-rounded" href="{% url 'logout' %}">
+                        <span class="icon is-small">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </span>
+                        <strong>Log Out</strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // Toggle navbar
+    $(document).ready(function () {
+
+        // Check for click events on the navbar burger icon
+        $(".navbar-burger").click(function () {
+
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            $(".navbar-burger").toggleClass("is-active");
+            $(".navbar-menu").toggleClass("is-active");
+
+        });
+    });
+</script>

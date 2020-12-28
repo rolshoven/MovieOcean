@@ -1,0 +1,43 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div class="column is-4">
+        <h1 class="login-title is-hidden-mobile">Let's dive for movies!</h1>
+        <h1 class="title has-text-white has-text-left is-size-1 is is-hidden-tablet">
+            Let's dive for movies!
+        </h1>
+    </div>
+    <div class="column is-4 is-offset-4">
+        <div class="box">
+            <h3 class="title has-text-dark">Login</h3>
+            <p class="subtitle has-text-dark">Please log in to continue</p>
+            <hr>
+            {% if error_message %}
+                <p><strong class="is-size-7">{{ error_message }}</strong></p>
+            {% endif %}
+            {% if info_message %}
+                <p><strong class="is-size-7">{{ info_message }}</strong></p>
+            {% endif %}
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% include 'form_template.html' %}
+                <div class="field">
+                    <div class="control">
+                        <button type="submit" class="button is-block is-primary is-large is-fullwidth">Log In
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <div class="has-text-left">
+                <strong class="has-text-dark">No account yet?</strong>
+                <a href="{% url 'signup' %}" class="has-text-weight-semibold">Sign Up</a>
+                <br>
+                <strong class="has-text-dark">Forgot password?</strong>
+                <a href="{% url 'password_reset' %}" class="has-text-weight-semibold">Reset Password</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

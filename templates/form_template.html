@@ -1,0 +1,15 @@
+{% load auth_form_tags %}
+
+{% for field in form %}
+    <div class="field">
+        <label class="label has-text-left has-text-dark">{{ field.label_tag }}</label>
+        {% if field.errors %}
+            <div class="control">{{ field | add_class:'input is-danger is-small' }}</div>
+            {% for error in field.errors %}
+                <p class="help is-danger">{{ error }}</p>
+            {% endfor %}
+        {% else %}
+            <div class="control">{{ field | add_class:'input is-small' }}</div>
+        {% endif %}
+    </div>
+{% endfor %}

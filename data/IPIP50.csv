@@ -1,0 +1,51 @@
+Question,Trait_Idx,Positive_Keyed
+"I'm the life of the party.",1,True
+"I feel little concern for others.",2,False
+"I'm always prepared.",3,True
+"I get stressed out easily.",4,False
+"I have a rich vocabulary.",5,True
+"I don't talk a lot.",1,False
+"I'm interested in people.",2,True
+"I leave my belongings around.",3,False
+"I'm relaxed most of the time.",4,True
+"I have difficulty understanding abstract ideas.",5,False
+"I feel comfortable around people.",1,True
+"I insult people.",2,False
+"I pay attention to details.",3,True
+"I worry about things.",4,False
+"I have a vivid imagination.",5,True
+"I keep in the background.",1,False
+"I sympathize with others' feelings.",2,True
+"I make a mess of things.",3,False
+"I seldom feel blue.",4,True
+"I'm not interested in abstract ideas.",5,False
+"I start conversations.",1,True
+"I'm not interested in other people's problems.",2,False
+"I get chores done right away.",3,True
+"I'm easily disturbed.",4,False
+"I have excellent ideas.",5,True
+"I have little to say.",1,False
+"I have a soft heart.",2,True
+"I often forget to put things back in their proper place.",3,False
+"I get upset easily.",4,False
+"I do not have a good imagination.",5,False
+"I talk to a lot of different people at parties.",1,True
+"I'm not really interested in others.",2,False
+"I like order.",3,True
+"I change my mood a lot.",4,False
+"I'm quick to understand things.",5,True
+"I don't like to draw attention to myself.",1,False
+"I take time out for others.",2,True
+"I shirk my duties.",3,False
+"I have frequent mood swings.",4,False
+"I use difficult words.",5,True
+"I don't mind being the center of attention.",1,True
+"I feel others' emotions.",2,True
+"I follow a schedule.",3,True
+"I get irritated easily.",4,False
+"I spend time reflecting on things.",5,True
+"I'm quiet around strangers.",1,False
+"I make people feel at ease.",2,True
+"I'm exacting in my work.",3,True
+"I often feel blue.",4,False
+"I'm full of ideas.",5,True

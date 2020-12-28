@@ -1,0 +1,27 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}Feedback{% endblock %}
+
+{% block content %}
+    <div class="column is-4 is-offset-4">
+        <div class="box">
+            <h3 class="title has-text-dark">{% block feedback_title %}Feedback Title{% endblock %}</h3>
+            <p class="subtitle has-text-dark">{% block feedback_subtitle %}Feedback Subtitle{% endblock %}</p>
+            <hr>
+            <p class="has-text-justified has-text-dark">
+                {% block feedback_paragraph1 %}
+
+                {% endblock %}
+            </p>
+            <br>
+            <p class="has-text-justified has-text-dark">
+                {% block feedback_paragraph2 %}
+
+                {% endblock %}
+            </p>
+            <a href="{% block button_url %}{% endblock %}" class="button is-block is-primary is-large is-fullwidth">
+                {% block button_text %}Button Text{% endblock %}
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% load mathfilters %}
+{% load index %}
+
+{% block title %}Questionnaire{% endblock %}
+
+{% block body %}
+    <section class="section">
+        <form method="post">
+            {% csrf_token %}
+            <div class="container">
+                <h1 class="title has-text-centered">
+                    Questionnaire
+                </h1>
+                <div class="columns">
+                    <div class="column is-12">
+                        <div class="notification is-warning is-light is-size-6 is-size-7-mobile">
+                            Describe yourself as you generally are now, not as you wish to be in the future. Describe
+                            yourself as you honestly see yourself, in relation to other people you know of the same sex
+                            as
+                            you are, and roughly your same age. So that you can describe yourself in an honest manner,
+                            your
+                            responses will be kept in absolute confidence. Indicate for each statement whether it is 1.
+                            Very
+                            Inaccurate, 2. Moderately Inaccurate, 3. Neither Accurate Nor Inaccurate, 4. Moderately
+                            Accurate, or 5. Very Accurate as a description of you.
+                        </div>
+                    </div>
+                </div>
+                {% if messages %}
+                    <div class="columns">
+                        {% for message in messages %}
+                            <div class="column is-12">
+                                <div class="{{ message.tags }} is-size-7">
+                                    <a class="delete"></a>
+                                    {{ message }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="columns">
+                    <div class="column">
+                        <div class="columns is-hidden-mobile">
+                            <div class="column is-6"></div>
+                            {% for _, option in choices %}
+                                <div class="column has-text-centered">
+                                    <p class="is-size-7">{{ option }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% for question, answer in questions_answers %}
+                            <div class="columns">
+                                <div class="column is-6">
+                                    <p class="is-size-5">{{ question }}</p>
+                                </div>
+                                {% for id, _ in choices %}
+                                    <div class="column has-text-centered-tablet">
+                                        <div class="field">
+                                            <div class="control">
+                                                {% if answer and answer == id %}
+                                                    <input type="radio" name="question-{{ question.id }}"
+                                                           value="{{ id }}" checked>
+                                                    <span class="is-hidden-tablet is-size-7"> {{ choices|index:forloop.counter0|index:1 }}</span>
+                                                {% else %}
+                                                    <input type="radio" name="question-{{ question.id }}"
+                                                           value="{{ id }}">
+                                                    <span class="is-hidden-tablet is-size-7"> {{ choices|index:forloop.counter0|index:1 }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="columns is-vcentered is-hidden-tablet">
+                    <div class="column is-12 has-text-centered">
+                        <progress class="progress is-primary" value="{{ page_obj.number|sub:1 }}"
+                                  max="{{ page_obj.paginator.num_pages }}">
+                            {{ page_obj.number|sub:1|div:page_obj.paginator.num_pages }}%
+                        </progress>
+                    </div>
+                </div>
+                <div class="columns is-vcentered is-mobile">
+                    <div class="column">
+                        {% if page_obj.has_previous %}
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-outlined is-rounded" name="page"
+                                        value="{{ page_obj.previous_page_number }}">
+                                    <span class="icon">
+                                        <i class="fas fa-caret-left"></i>
+                                    </span>
+                                    <span class="has-text-weight-medium">Back</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="column is-2 has-text-centered is-hidden-mobile">
+                        <progress class="progress is-primary" value="{{ page_obj.number|sub:1 }}"
+                                  max="{{ page_obj.paginator.num_pages }}">
+                            {{ page_obj.number|sub:1|div:page_obj.paginator.num_pages }}%
+                        </progress>
+                    </div>
+                    <div class="column has-text-right">
+                        {% if page_obj.has_next %}
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-outlined is-rounded" name="page"
+                                        value="{{ page_obj.next_page_number }}">
+                                    <span class="has-text-weight-medium">Next</span>
+                                    <span class="icon">
+                                        <i class="fas fa-caret-right"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        {% else %}
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-outlined is-rounded" name="page"
+                                        value="save">
+                                    <span class="icon">
+                                        <i class="fas fa-save"></i>
+                                    </span>
+                                    <span class="has-text-weight-medium">Save</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // Close notification on click
+            $(".notification .delete").click(function () {
+                $(this.closest("div")).fadeOut(800);
+            });
+        })
+    </script>
+{% endblock %}

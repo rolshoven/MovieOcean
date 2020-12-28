@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Account{% endblock %}
+
+{% block body %}
+    <section class="hero is-fullheight is-overlay">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-3">
+                        <div class="columns is-multiline box">
+                            <div class="column is-12">
+                                <h1 class="title">
+                                    Account
+                                </h1>
+                                {% for message in messages %}
+                                    <p class="has-text-info is-msg is-size-7">{{ message }}</p>
+                                {% endfor %}
+                            </div>
+                            <div class="column is-12">
+                                <h2 class="subtitle is-4">
+                                    My Information
+                                </h2>
+                                <strong>E-Mail:</strong> <span>{{ user.email }}</span><br>
+                                <strong>Date of birth:</strong> <span>{{ user.date_of_birth }}</span><br>
+                                <strong>Gender:</strong> <span>{{ user.get_gender_display }}</span><br>
+                                <strong>Country:</strong> <span>{{ user.get_country_display }}</span><br>
+                                <strong>Rating Reminders:</strong>
+                                <span>
+                                    {% if user.rating_reminders %}
+                                        On
+                                    {% else %}
+                                        Off
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="column is-12">
+                                <h2 class="subtitle is-4">
+                                    Settings
+                                </h2>
+                                <div class="buttons">
+                                    <a class="button is-info is-rounded is-fullwidth"
+                                       href="{% url 'toggle_rating_reminders' %}">
+                                        {% if user.rating_reminders %}
+                                            <span class="icon is-small">
+                                                <i class="fas fa-bell-slash"></i>
+                                            </span>
+                                            <strong>Deactivate Rating Reminders</strong>
+                                        {% else %}
+                                            <span class="icon is-small">
+                                                <i class="fas fa-bell"></i>
+                                            </span>
+                                            <strong>Activate Rating Reminders</strong>
+                                        {% endif %}
+                                    </a>
+                                    <a class="button is-info is-rounded is-fullwidth"
+                                       href="{% url 'password_change' %}">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-key"></i>
+                                        </span>
+                                        <strong>Change Password</strong>
+                                    </a>
+                                    <a class="button modal-button is-danger is-rounded is-fullwidth">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <strong>Delete Account</strong>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal">
+                    <div class="modal-background"></div>
+                    <div class="modal-content" style="overflow: hidden;">
+                        <div class="tile is-ancestor">
+                            <div class="tile is-parent">
+                                <div class="tile is-child box has-text-centered my-4">
+                                    <h1 class="title is-size-4">
+                                        Do you really want to delete your account?
+                                    </h1>
+                                    <p class="subtitle">
+                                        Your personality profile and all your ratings will be lost. If you would like to
+                                        continue, click the button below. If you want to keep your account, just close
+                                        this window by clicking outside this window.
+                                    </p>
+                                    <a class="button is-danger is-rounded is-fullwidth"
+                                       href="{% url 'delete_account' %}">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <strong>Delete Account</strong>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close"></button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $('.is-msg').fadeOut(5000);
+    </script>
+    <script>
+        $('.modal-button').click(function () {
+            let target = $('.modal');
+            $('html').addClass('is-clipped');
+            $(target).addClass('is-active');
+            return false;  // Allows event bubbling
+        });
+
+        $('.modal-close').click(function () {
+            $('html').removeClass('is-clipped');
+            $(this).parent().removeClass('is-active');
+        });
+
+        // Close modal when user clicks outside of it
+        $('.modal-background').click(function () {
+            $('html').removeClass('is-clipped');
+            $('.modal-close').parent().removeClass('is-active');
+        });
+    </script>
+{% endblock %}
+

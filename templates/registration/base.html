@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} Title {% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block navigation %}
+    {# Override navigation... #}
+{% endblock %}
+
+{% block body %}
+    <div class="login-cover">
+        <section class="hero is-fullheight">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <div class="columns">
+
+                        {% block content %}
+                        {% endblock %}
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

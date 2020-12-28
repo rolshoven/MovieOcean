@@ -1,0 +1,35 @@
+<script>
+        $('.add-to-watchlist').click(function () {
+            movie = $(this).closest('.column.is-3').children('.movie-info').first().data();
+            const feedbackContainer = $('#feedback');
+            $.ajax
+            ({
+                url: '{% url 'movie:add_to_watchlist' %}',
+                data: {
+                    tmdb_id: movie.id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                type: 'post',
+                // on success
+                success: function (response) {
+                    if (response.status) {
+                        $(feedbackContainer).find('.notification').removeClass('is-danger');
+                        $(feedbackContainer).find('.notification').addClass('is-success');
+                        $(feedbackContainer).removeClass('is-hidden');
+                        $(feedbackContainer).find('.notification').text(response.status);
+                        $(feedbackContainer).fadeOut(4500, () => {
+                            $(feedbackContainer).addClass('is-hidden').show();
+                        });
+                    } else {
+                        $(feedbackContainer).find('.notification').removeClass('is-success');
+                        $(feedbackContainer).find('.notification').addClass('is-danger');
+                        $(feedbackContainer).removeClass('is-hidden');
+                        $(feedbackContainer).find('.notification').text(response.errors);
+                        $(feedbackContainer).fadeOut(4500, () => {
+                            $(feedbackContainer).addClass('is-hidden').show();
+                        });
+                    }
+                },
+            });
+        });
+    </script>

@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+
+{% block title %}Results{% endblock %}
+
+{% block body %}
+    <section class="hero is-primary is-bold">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title">
+                    You did it!
+                </h1>
+                <h2 class="subtitle">
+                    Want to know what we found out? Below you can see how you scored in the Big Five traits.
+                </h2>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline is-centered">
+                {% for message in messages %}
+                        <div class="column is-10">
+                            <div class="{{ message.tags }} is-light">
+                                <button class="delete"></button>
+                                {{ message }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="column is-10 has text-centered">
+                        <div id="disclaimer" class="notification is-info is-light">
+                            <button class="delete"></button>
+                            Please note that we are not psychologists and while the personality assessment could be valid,
+                            we do not promise so. We are primarily interested in using this information for recommending
+                            movies to users.
+                        </div>
+                    </div>
+
+                    {# Desktop #}
+                    <div class="column is-14 is-hidden-mobile" style="display:block;">
+                        <canvas id="BigFiveRadar" width="400"></canvas>
+                    </div>
+                    {# Mobile #}
+                    <div class="column is-14 is-hidden-tablet" style="display:block;">
+                        <canvas id="BigFiveRadarMobile" width="400"></canvas>
+                    </div>
+                {% for trait in personality %}
+                    {% if trait == 'Extraversion' %}
+                        <div class="columns is-multiline is-centered">
+                            <div class="column is-10">
+                                <p>
+                                    <h3 class="title is-3">
+                                        Extraversion
+                                    </h3>
+                                    <h4 class="subtitle">
+                                        Your reached {{personality.Extraversion}} out of 50 points
+                                    </h4>
+                                    People with a higher score in Extraversion tend to be sociable, talkative,
+                                    assertive, and full of energy. They seek stimulation from the outside, mostly through
+                                    interactions with other people.
+                                    They feel comfortable in social situations and don't shy away from having
+                                    conversations. So, it is not surprising that they surround themselves with
+                                    many friends and are quick to form new friendships.
+                                    As they are energetic and assertive, they are
+                                    usually successful in reaching their goals. Achievements of all kinds get
+                                    them excited. They prefer to change over maintaining the status quo.
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if trait == 'Conscientiousness' %}
+                            <div class="columns is-multiline is-centered">
+                                <div class="column is-10 my-2">
+                                    <p>
+                                        <h3 class="title is-3">
+                                            Conscientiousness
+                                        </h3>
+                                        <h4 class="subtitle">
+                                            Your reached {{personality.Conscientiousness}} out of 50 points
+                                        </h4>
+                                        Individuals with with a higher score in conscientiousness tend to be
+                                        disciplined, focused, careful, thorough, responsible, organized, and
+                                        goal-oriented. They are reliable and prefer planned rather than
+                                        spontaneous behavior.
+                                        With their competence and self-discipline, they are usually successful
+                                        in achieving their goals. They prefer stability and security over change or
+                                        risk-taking. Because of their characteristics, a higher score in
+                                        conscientiousness can lead to exam performance and
+                                        academic success above the average.
+                                    </p>
+                                </div>
+                            </div>
+                    {% endif %}
+
+                    {% if trait == 'Agreeableness' %}
+                        <div class="columns is-multiline is-centered">
+                            <div class="column is-10 my-2">
+                                <p>
+                                    <h3 class="title is-3">
+                                            Agreeableness
+                                    </h3>
+                                    <h4 class="subtitle">
+                                        Your reached {{personality.Agreeableness}} out of 50 points
+                                    </h4>
+                                    Individuals who are high on agreeableness tend to be good-natured,
+                                    compliant, modest, gentle, and cooperative. They show high concern for
+                                    other people and try to get along with everyone. They choose cooperation
+                                    over competition, which makes them great team players. Dominance or power
+                                    is not desirable for them. They offer great support for other people and are
+                                    forgiving and trusting, which makes them great friends.
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if trait == 'Neuroticism' %}
+                        <div class="columns is-multiline is-centered">
+                            <div class="column is-10 my-2">
+                                <p>
+                                    <h3 class="title is-3">
+                                            Neuroticism
+                                    </h3>
+                                    <h4 class="subtitle">
+                                        Your reached {{personality.Neuroticism}} out of 50 points
+                                    </h4>
+                                    With a higher score in neuroticism, individuals tend to be intelligent,
+                                    have a great (rather dark) sense of humor, and feel emotions more
+                                    deeply. As they feel emotions more deeply, they might have increased
+                                    negative emotions like sadness, anger, or anxiety. Taking risks or change
+                                    is not pleasing for them. Their world view is rather realistic than optimistic.
+                                    They are careful as some situations or behaviors might make them feel
+                                    guilty in some way. They perceive injustice in the world more intensively than
+                                    others and care about people even when they are far away in another country.
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if trait == 'Openness' %}
+                        <div class="columns is-multiline is-centered">
+                            <div class="column is-10 my-2">
+                                <p>
+                                    <h3 class="title is-3">
+                                            Openness
+                                    </h3>
+                                    <h4 class="subtitle">
+                                        Your reached {{personality.Openness}} out of 50 points
+                                    </h4>
+                                    Individuals who are open to new experiences tend to be intellectual,
+                                    imaginative, sensitive, and open-minded. They value the autonomy of thought
+                                    and action and are interested in new ideas and concepts.
+                                    They have a high tolerance for other people and different opinions and
+                                    ideas. Tradition, structure, and stability is not their way of living.
+                                    They come up with many creative ideas that might be conceived as
+                                    unconventional by others. In addition, they have a vivid imagination and enjoy
+                                    abstract concepts and art.
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+    </section>
+{% endblock %}
+{% block scripts %}
+    <script>
+        var ctx = document.getElementById('BigFiveRadar');
+
+        options = {
+            scale: {
+                angleLines: {
+                    display: true
+                },
+                gridLines: {
+                    color: "rgba(45, 20, 44, 0.4)"
+                },
+                pointLabels: {
+                    fontSize: 16,
+                    fontColor: "#801336"
+                },
+                ticks: {
+                    min: 5,
+                    max: 50,
+                    stepSize: 5,
+
+                }
+            }
+        };
+
+        var bigFive = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: {{ labels|safe }},
+                datasets: [{
+                    label: "Big Five Trait Scores",
+                    data: {{ scores|safe }},
+                    backgroundColor: "rgba(45, 20, 44, 0.4)",
+                    borderColor: "rgba(45, 20, 44, 0.6)",
+                    borderWidth: 1,
+                    pointBackgroundColor: "#2d142c",
+                    pointBorderWidth: 1,
+                    pointRadius: 5,
+                    pointHoverBackgroundColor: "#000000",
+                    pointHoverRadius: 7,
+                    pointHoverBorderWidth: 0
+                }]
+            },
+            options: options
+        });
+
+        $(document).ready(function () {
+            // Close notification on click
+            $(".notification .delete").click(function () {
+                $(this).closest('.notification').fadeOut(800);
+            });
+        })
+    </script>
+
+    <script>
+        var ctx = document.getElementById('BigFiveRadarMobile');
+
+        options = {
+            scale: {
+                angleLines: {
+                    display: true
+                },
+                gridLines: {
+                    color: "rgba(45, 20, 44, 0.4)"
+                },
+                pointLabels: {
+                    fontSize: 16,
+                    fontColor: "#801336"
+                },
+                ticks: {
+                    min: 5,
+                    max: 50,
+                    stepSize: 5,
+
+                }
+            }
+        };
+
+        var bigFive = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: {{ mobile|safe }},
+                datasets: [{
+                    label: "Big Five Trait Scores",
+                    data: {{ scores|safe }},
+                    backgroundColor: "rgba(45, 20, 44, 0.4)",
+                    borderColor: "rgba(45, 20, 44, 0.6)",
+                    borderWidth: 1,
+                    pointBackgroundColor: "#2d142c",
+                    pointBorderWidth: 1,
+                    pointRadius: 5,
+                    pointHoverBackgroundColor: "#000000",
+                    pointHoverRadius: 7,
+                    pointHoverBorderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        $(document).ready(function () {
+            // Close notification on click
+            $(".notification .delete").click(function () {
+                $(this).closest('.notification').fadeOut(800);
+            });
+        })
+
+
+    </script>
+{% endblock %}

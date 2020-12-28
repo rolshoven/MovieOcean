@@ -1,0 +1,44 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}Cookies{% endblock %}
+
+{% block content %}
+    <div class="column is-8 is-offset-2">
+        <div class="box">
+            <h1 class="title is-size-2">
+                Cookies
+            </h1>
+            <div class="block">
+                <p class="has-text-left is-size-5">
+                    We only use two types of strictly necessary cookies: the sessionid, which is needed
+                    for you to sign in and use our personality-based Recommender System and the csrf token,
+                    which is used to prevent CSRF attacks on your account. CSRF attacks can be used to carry
+                    out actions with your account unintentionally. If you want to know more about the topic,
+                    have a look at this <a href="https://portswigger.net/web-security/csrf">site</a>.
+                </p>
+            </div>
+            <div class="block">
+                <p class="has-text-left is-size-5">
+                    We also store other information about you but not in the form of cookies. Particularly,
+                    we store your age, your country, your gender and your email in our database, once you
+                    register. Also, if you use our system, we store your Big Five personality scores and
+                    your movie ratings. This information is only stored to improve the quality of the
+                    movie recommendations and to asses the prediction power of the personality-based
+                    recommendation approach. Your information will not be shared with any third parties.
+                </p>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <a class="button is-primary is-medium is-rounded is-fullwidth"
+                       href="{% url 'home' %}">
+                        <span class="icon is-small">
+                            <i class="fas fa-hand-point-left"></i>
+                        </span>
+                        <strong class="is-hidden-mobile">Okay, take me back!</strong>
+                        <strong class="is-hidden-tablet">Back</strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
