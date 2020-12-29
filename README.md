@@ -33,3 +33,5 @@ pipenv install some_random_package --dev
 
 If you want activate the environment in your shell, use `pipenv shell`.
 
+Additionally, you will need a file named `.env` and place it in the folder `MovieOCEAN`. There is already an example called `.env.example`. You will need these exact variables. For these, you will need to request a API-key of TMDB.
+
