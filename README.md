@@ -2,7 +2,7 @@
 
 ## General
 
-This is the code for MovieOcean, available at https://movieocean.herokuapp.com. MovieOcean is a movie recommender system. In this system, we use a new approach that takes the personality into account. For the recommendations, we are using an adapted user-based collaborative filtering algorithm. We build neighborhoods according to the personalities of the users. For assessing the personalities, we are using the Five-Factor Model: Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism. For short: OCEAN. The findings of this system are only of academic interest, and we randomized all data so that there is no way to trace information back to users. This system was made by **Luca Rolshoven** and **Corina Masanti**.
+This is the code for MovieOcean, available at https://movieocean.herokuapp.com. MovieOcean is a movie recommender system. In this system, we use a new approach that takes the personality into account. For the recommendations, we are using an adapted user-based collaborative filtering algorithm. We build neighborhoods according to the personalities of the users. For assessing the personalities, we are using the Five-Factor Model: Openness, Conscientiousness, Extraversion, Agreeableness, Neuroticism. For short: OCEAN. The findings of this system are only of academic interest. This system was made by **Luca Rolshoven** and **Corina Masanti** in the course of a seminar at the University of Fribourg (CH).
 
 ## Structure
 
